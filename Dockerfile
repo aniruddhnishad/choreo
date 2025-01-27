@@ -1,12 +1,12 @@
 # Stage 1: Build and run tests
-FROM node:20-alpine AS build
+FROM node:22-alpine AS build
 
 # Create app directory
 WORKDIR /usr/src/app
 
 # Copy package files and install dependencies
 COPY package*.json ./
-RUN npm ci
+RUN npm i
 
 # Copy the rest of the application source
 COPY . .
@@ -15,14 +15,14 @@ COPY . .
 RUN npm run test
 
 # Stage 2: Create the production image
-FROM node:20-alpine
+FROM node:22-alpine
 
 # Create app directory
 WORKDIR /usr/src/app
 
 # Copy package files and install dependencies
 COPY package*.json ./
-RUN npm ci --omit=dev
+RUN npm i --omit=dev
 
 # Copy the rest of the application source
 COPY . .
